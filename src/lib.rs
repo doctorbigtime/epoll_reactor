@@ -133,7 +133,7 @@ impl EpollReactor {
     let mut events : Vec<libc::epoll_event> = Vec::with_capacity(1024);
     let nfds = do_epoll_wait(self.efd, &mut events, timeout)?;
     if nfds == 0 {
-      println!("timeout");
+      // println!("timeout");
       let state = self.state.as_mut().unwrap();
       for callback in &mut state.idle_callbacks {
         callback.on_idle();
@@ -150,7 +150,7 @@ impl EpollReactor {
           let listener = Rc::clone(&block.listener);
           let events = ee.events as i32;
           if events & libc::EPOLLIN == libc::EPOLLIN {
-            println!("firing listener on_readable");
+            // println!("firing listener on_readable");
             // let mut listener = &mut *block.listener;
             listener.borrow_mut().on_event(self, EventType::Readable);
           }
